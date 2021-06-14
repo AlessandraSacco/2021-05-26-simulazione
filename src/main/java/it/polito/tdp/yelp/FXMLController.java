@@ -82,12 +82,10 @@ public class FXMLController {
     		txtResult.appendText("Riempi i campi dell'anno e della citta e crea il grafo ");
     	}
     	
-    	this.model.getLocaleMigliore().clear();
     	this.model.setLocaleMigliore();
-    	txtResult.appendText("Il locale migliore è: \n");
-    	for(LocaleMigliore l:this.model.getLocaleMigliore()) {
-    	txtResult.appendText(l.getB1().getBusinessName()+"\n");
-    	}
+    	LocaleMigliore l = this.model.getLocaleMigliore();
+    	txtResult.appendText("Il locale migliore è: "+l.getB1().getBusinessName());
+        
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete

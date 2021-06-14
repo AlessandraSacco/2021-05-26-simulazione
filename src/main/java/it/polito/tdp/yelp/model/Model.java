@@ -16,8 +16,7 @@ public class Model {
 	SimpleDirectedWeightedGraph<Business,DefaultWeightedEdge> grafo;
 	YelpDao dao;
 	Map<String,Business> idMap;
-	LocaleMigliore l;
-	List<LocaleMigliore> allLocaliMigliori= new ArrayList<LocaleMigliore>();
+	LocaleMigliore l=null;
 
 	
 	public Model() {
@@ -72,8 +71,7 @@ public class Model {
 		Business best=null;
 		int somma=0;
 		int sommaMax = 0;
-		List<LocaleMigliore> allLocali= new ArrayList<LocaleMigliore>();
-		
+	
 		
 		for(Business b: this.grafo.vertexSet()) {
 			int tmp1=0;
@@ -89,26 +87,22 @@ public class Model {
 		
 		 somma= tmp1-tmp2;
 		 
-		 if(somma>sommaMax) {
-			 sommaMax=somma;
-			 best=b;
-			}
-		 
-		 allLocali.add(new LocaleMigliore(b,somma));
 		
-		}
-        
-		
-		for(LocaleMigliore l: allLocali) {
-		if(l.getPeso()==sommaMax) {
-			allLocaliMigliori.add(l);
-			}
+		if(somma>sommaMax) {
+		 sommaMax=somma;
+		 best=b;
 		}
 		
+		
+		}
+		
+		
+		
+		 l = new LocaleMigliore(best,sommaMax);
 		
 	}
 	
-	public List<LocaleMigliore> getLocaleMigliore() {
-		return allLocaliMigliori;
+	public LocaleMigliore getLocaleMigliore() {
+		return l;
 	}
 }
