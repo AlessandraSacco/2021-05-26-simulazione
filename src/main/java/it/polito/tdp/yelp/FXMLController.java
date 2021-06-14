@@ -5,8 +5,11 @@
 package it.polito.tdp.yelp;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.yelp.model.LocaleMigliore;
 import it.polito.tdp.yelp.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,13 +38,13 @@ public class FXMLController {
     private Button btnPercorso; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbCitta"
-    private ComboBox<?> cmbCitta; // Value injected by FXMLLoader
+    private ComboBox<String> cmbCitta; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtX"
     private TextField txtX; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbAnno"
-    private ComboBox<?> cmbAnno; // Value injected by FXMLLoader
+    private ComboBox<Integer> cmbAnno; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbLocale"
     private ComboBox<?> cmbLocale; // Value injected by FXMLLoader
@@ -56,12 +59,35 @@ public class FXMLController {
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
+    	txtResult.clear();
+    	String citta= cmbCitta.getValue();
+    	Integer anno= cmbAnno.getValue();
+    	
+    	if(citta==null || anno==null) {
+    		txtResult.appendText("Riempire entrambi i campi: citta e anno");
+    	}
+    	
+    	this.model.creaGrafo(citta, anno);
+    	txtResult.appendText("GRAFO CREATO: \n");
+    	txtResult.appendText("#VERTICI: "+this.model.getVertici()+"\n");
+    	txtResult.appendText("#ARCHI: "+this.model.getArchi()+"\n");
+    	
 
     }
 
     @FXML
     void doLocaleMigliore(ActionEvent event) {
-
+    	txtResult.clear();
+    	if(this.model.getGrafo()==null) {
+    		txtResult.appendText("Riempi i campi dell'anno e della citta e crea il grafo ");
+    	}
+    	
+    	this.model.getLocaleMigliore().clear();
+    	this.model.setLocaleMigliore();
+    	txtResult.appendText("Il locale migliore è: \n");
+    	for(LocaleMigliore l:this.model.getLocaleMigliore()) {
+    	txtResult.appendText(l.getB1().getBusinessName()+"\n");
+    	}
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -78,5 +104,13 @@ public class FXMLController {
     
     public void setModel(Model model) {
     	this.model = model;
+    	List<Integer> anno= new ArrayList<Integer>();
+    	
+    	for(int i=2005; i<2014; i++) {
+    		anno.add(i);
+    	}
+    	
+    	cmbAnno.getItems().addAll(anno);
+    	cmbCitta.getItems().addAll(this.model.getAllCity());
     }
 }
